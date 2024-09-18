@@ -41,8 +41,8 @@ def dask_client(cluster):
     cluster.scale(jobs=1)
     client = Client(cluster)
     yield client
-    # client.close()
-    # cluster.close()
+    client.close()
+    cluster.close()
 
 
 def train_model():
@@ -55,7 +55,7 @@ def train_model():
     train_loader = DataLoader(dataset)
 
     trainer = L.Trainer(
-        enable_progress_bar=False, limit_train_batches=100, max_epochs=1
+        enable_progress_bar=False, limit_train_batches=100, max_epochs=100
     )
     trainer.fit(model=autoencoder, train_dataloaders=train_loader)
 
@@ -69,9 +69,13 @@ def main():
             queue="a100",
         )
         with dask_client(cluster) as client:
+            print("Submitting...")
             client.submit(train_model).result()
+            print("Done")
     else:
+        print("Running locally...")
         train_model()
+        print("Done")
 
 
 def main2():
@@ -91,4 +95,4 @@ def main2():
 
 
 if __name__ == "__main__":
-    main2()
+    main()
