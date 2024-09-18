@@ -82,8 +82,8 @@ def main2():
             job_extra_directives=["--gres=gpu:1"],
             queue="a100",
         )
-        with dask_client(cluster):
-            print("Running on SLURM")
+        with dask_client(cluster) as client:
+            client.submit(lambda: print("Running on Slurm")).result()
     else:
         print("Running locally")
 
