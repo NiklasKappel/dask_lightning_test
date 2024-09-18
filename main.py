@@ -67,7 +67,7 @@ def main():
             queue="a100",
         )
         with dask_client(cluster) as client:
-            client.submit(train_model)
+            client.submit(train_model).result()
     else:
         train_model()
 
