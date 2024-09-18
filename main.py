@@ -83,7 +83,9 @@ def main2():
             queue="a100",
         )
         with dask_client(cluster) as client:
+            print("Submitting...")
             client.submit(lambda: print("Running on Slurm")).result()
+            print("Done")
     else:
         print("Running locally")
 
