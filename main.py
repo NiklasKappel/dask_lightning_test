@@ -41,8 +41,8 @@ def dask_client(cluster):
     cluster.scale(jobs=1)
     client = Client(cluster)
     yield client
-    client.close()
-    cluster.close()
+    # client.close()
+    # cluster.close()
 
 
 def train_model():
