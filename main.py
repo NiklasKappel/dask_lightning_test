@@ -54,7 +54,9 @@ def train_model():
     dataset = MNIST(os.getcwd(), download=True, transform=ToTensor())
     train_loader = DataLoader(dataset)
 
-    trainer = L.Trainer(limit_train_batches=100, max_epochs=1)
+    trainer = L.Trainer(
+        enable_progress_bar=False, limit_train_batches=100, max_epochs=1
+    )
     trainer.fit(model=autoencoder, train_dataloaders=train_loader)
 
 
