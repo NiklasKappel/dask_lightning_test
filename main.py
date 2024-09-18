@@ -74,5 +74,19 @@ def main():
         train_model()
 
 
+def main2():
+    if sbatch_is_available():
+        cluster = SLURMCluster(
+            cores=8,
+            memory="32GB",
+            job_extra_directives=["--gres=gpu:1"],
+            queue="a100",
+        )
+        with dask_client(cluster):
+            print("Running on SLURM")
+    else:
+        print("Running locally")
+
+
 if __name__ == "__main__":
-    main()
+    main2()
